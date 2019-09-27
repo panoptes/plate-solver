@@ -18,7 +18,7 @@ if [[ ${index_count} -eq 0  ]]; then
     if [[ ${index_count} -eq 0  ]]; then
         echo ""
         echo "No files found in ${NEW_DIR}"
-        read -p "Download wide field index files [Y/n]: " do_download
+        read -p "Download wide field (4208-4219) index files [Y/n]? " do_download
         do_download=${do_download:-Y}
         if [[ ${do_download} == 'Y' ]]; then
             echo "Downloading files"
