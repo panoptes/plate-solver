@@ -1,15 +1,54 @@
-#!/bin/bash
+#!/bin/bash -e
 
-INDEX_DIR=${INDEX_DIR:-/var/panoptes/astrometry/data}
 SOLVE_FILE=$1
+INDEX_DIR=${INDEX_DIR:-${HOME}/.astrometry}
+ASTROMETRY_URL=${ASTROMETRY_URL:-http://broiler.astrometry.net/~dstn/4200}
 
-# Run the solve command
-docker run \
-	--rm \
-	-v "${INDEX_DIR}":/usr/share/astrometry \
-	-v "${PWD}":/tmp \
-	--user $(id -u):$(id -g) \
-	panoptes/plate-solver "${@:2}" "/tmp/${SOLVE_FILE}"
+# Look for index files
+index_count="$(find ${INDEX_DIR}/index*.fits | wc -l)"
+if [[ ${index_count} -eq 0  ]]; then
+    echo ""
+    echo "No index files found. Please enter location for index files."
+    echo "If no files are found at that locaiton you will be prompted to download them."
+    echo ""
+    read -p "astrometry.net index location [${HOME}/.astrometry]: " NEW_DIR
+    NEW_DIR=${NEW_DIR:-$INDEX_DIR}
 
-# Change permissions on all files
-#chown $USER:$USER $(basename ${SOLVE_FILE} .fits)*
+    index_count="$(find ${NEW_DIR}/index*.fits | wc -l)"
+    if [[ ${index_count} -eq 0  ]]; then
+        echo ""
+        echo "No files found in ${NEW_DIR}"
+        read -p "Download wide field index files [Y/n]: " do_download
+        do_download=${do_download:-Y}
+        if [[ ${do_download} == 'Y' ]]; then
+            echo "Downloading files"
+            mkdir -p "${NEW_DIR}"
+            cd "${NEW_DIR}"
+            for i in {4208..4219}; do
+                echo "Downloading index-${i}.fits"
+                wget -q "${ASTROMETRY_URL}/index-${i}.fits"
+            done
+            # Go back to previous directory
+            cd -
+            INDEX_DIR=${NEW_DIR}
+        fi
+    else
+        echo "Found ${index_count} index files in ${NEW_DIR}"
+        echo "Linking ${NEW_DIR} to ${INDEX_DIR}"
+        ln -s ${NEW_DIR} ${INDEX_DIR}
+    fi
+fi
+
+# If no file passed, show help options
+if ! test -f "${SOLVE_FILE}"; then
+    docker run --rm panoptes/plate-solver -h
+else
+    # Run the solve command
+    docker run \
+    	--rm \
+    	-v "${INDEX_DIR}":/usr/share/astrometry \
+    	-v "${PWD}":/tmp \
+    	--user $(id -u):$(id -g) \
+    	panoptes/plate-solver "${@:2}" "/tmp/${SOLVE_FILE}"
+fi
+
