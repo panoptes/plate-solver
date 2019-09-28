@@ -30,13 +30,7 @@ $ docker pull gcr.io/panoptes-survey/plate-solver
 
 #### Setup
 
-The `plate-solver` image contains a bash script that will properly run the astrometry.net
-`solve-field` command.  The script will also check a set location for
-[index files](http://astrometry.net/doc/readme.html#getting-index-files) and prompt
-for download if they are not found. If you have existing index files you can specify
-them the first time and a link will be created so you are not asked again.
-
-To use the the `solve-field` and other scripts you must first copy them to your host system.
+To use the `solve-field` and other scripts you must first copy them to your host system.
 The easiest way to do this is to create a `bin` directory in your home directory:
 
 ```bash
@@ -72,8 +66,9 @@ source ~/.bashrc
 #### Use
 
 In a terminal you can now type `solve-field` with all the normal options. If the
-script cannot find any index files in an expected location it should prompt you
-for locations of existing files or will ask to download the wide-field files.
+script cannot find any [index files](http://astrometry.net/doc/readme.html#getting-index-files) 
+in an expected location it should prompt you for locations of existing files or will ask to 
+download the wide-field files.
 
 ```bash
 $ solve-field starry_night.fits
