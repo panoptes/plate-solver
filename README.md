@@ -4,11 +4,9 @@ Plate Solver
 An [astrometry.net](http://astrometry.net/) plate-solving service wrapped up in a Docker
 image.
 
-# Using `plate-solver`
+## Using `plate-solver`
 
-## Install
-
-### Get Docker
+#### Get Docker
 You will need to have [Docker](https://www.docker.com) up and running on your system.
 The [official docs](https://www.docker.com/get-started) provide some ways to do this
 but a simple way is:
@@ -21,7 +19,7 @@ $ sh get-docker.sh
 > Note: you will probably need to restart or logout of current session before this
 works properly. The above script will tell you what to do.
 
-### Get `plate-solver` Image
+#### Get `plate-solver` Image
 
 Once you have the `docker` command on your system you will need to pull the `plate-solver`
 image from the Google Cloud Registry servers:
@@ -30,7 +28,7 @@ image from the Google Cloud Registry servers:
 $ docker pull gcr.io/panoptes-survey/plate-solver
 ```
 
-## Setup
+#### Setup
 
 The `plate-solver` image contains a bash script that will properly run the astrometry.net
 `solve-field` command.  The script will also check a set location for
@@ -55,7 +53,7 @@ $ docker run --rm -it \
     gcr.io/panoptes-survey/plate-solver /bin/bash -c "cp -rv bin/* /mnt/"
 ```
 
-### Setup `$PATH`
+#### Setup `$PATH`
 
 You will need to make sure your `$PATH` variable can find your `bin` directory:
 
@@ -71,7 +69,7 @@ You can then log in and out of your session or type:
 source ~/.bashrc
 ```
 
-## Use
+#### Use
 
 In a terminal you can now type `solve-field` with all the normal options. If the
 script cannot find any index files in an expected location it should prompt you
@@ -81,12 +79,12 @@ for locations of existing files or will ask to download the wide-field files.
 $ solve-field starry_night.fits
 ```
 
-# Building `plate-solver`
+## Building `plate-solver`
 
 > Note: this is for developers working on the Docker image itself. If you just need
 to use the plate-solver you can ignore this section.
 
-## Building `plate-solver` image
+### Building `plate-solver` image
 
 There is a convenience script the will build the system on the `panoptes-survey` project
 in Google Cloud Platform:
