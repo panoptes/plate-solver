@@ -3,6 +3,8 @@
 SOLVE_FILE=$1
 INDEX_DIR=${INDEX_DIR:-${HOME}/.astrometry}
 ASTROMETRY_URL=${ASTROMETRY_URL:-http://broiler.astrometry.net/~dstn/4200}
+
+IMAGE_NAME=${IMAGE_NAME:-gcr.io/panoptes-survey/plate-solver:latest}
 CONTAINER_NAME=${CONTAINER_NAME:-plate-solver}
 
 # Look for index files
@@ -42,14 +44,15 @@ fi
 
 # If no file passed, show help options
 if ! test -f "${SOLVE_FILE}"; then
-    docker run --rm panoptes/plate-solver -h
+    docker run --rm ${IMAGE_NAME} solve-field -h
 else
     # Run the solve command
     docker run \
-    	--rm \
+        --rm \
     	-v "${INDEX_DIR}":/usr/share/astrometry \
     	-v "${PWD}":/tmp \
     	--user $(id -u):$(id -g) \
-    	${CONTAINER_NAME} "${@:2}" "/tmp/${SOLVE_FILE}"
+        --name "${CONTAINER_NAME}" \
+    	${IMAGE_NAME} solve-field --batch "${@:2}" "/tmp/${SOLVE_FILE}"
 fi
 

@@ -1,6 +1,6 @@
 FROM debian:buster-slim
 
-COPY bin/solve-field /tmp
+COPY bin/ /tmp/bin
 
 RUN apt-get update && \
     apt-get install --no-install-recommends -y astrometry.net && \
@@ -9,5 +9,3 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 WORKDIR /tmp
-
-ENTRYPOINT ["solve-field"]
