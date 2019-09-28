@@ -66,8 +66,8 @@ source ~/.bashrc
 #### Use
 
 In a terminal you can now type `solve-field` with all the normal options. If the
-script cannot find any [index files](http://astrometry.net/doc/readme.html#getting-index-files) 
-in an expected location it should prompt you for locations of existing files or will ask to 
+script cannot find any [index files](http://astrometry.net/doc/readme.html#getting-index-files)
+in an expected location it should prompt you for locations of existing files or will ask to
 download the wide-field files.
 
 ```bash
@@ -79,7 +79,15 @@ $ solve-field starry_night.fits
 > Note: this is for developers working on the Docker image itself. If you just need
 to use the plate-solver you can ignore this section.
 
-### Building `plate-solver` image
+### Building `plate-solver`
+
+You can build with the standard docker commands. e.g.:
+
+```bash
+$ docker build . --file docker/Dockerfile --tag plate-solver
+```
+
+### For panoptes (via Google Cloud Platform)
 
 There is a convenience script the will build the system on the `panoptes-survey` project
 in Google Cloud Platform:
