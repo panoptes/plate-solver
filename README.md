@@ -117,5 +117,5 @@ There is a convenience script the will build the system on the `panoptes-survey`
 in Google Cloud Platform:
 
 ```bash
-$ docker/build_containers.sh
+$ docker/build-image.sh
 ```
