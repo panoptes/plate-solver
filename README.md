@@ -67,10 +67,15 @@ home directory:
 ```bash
 # Go home
 $ cd
+
 # Create bin dir
 $ mkdir -p ~/bin
-# Copy the file from the container into the bin dir
-docker cp plate-solver:/tmp/solve-field ~/bin/
+
+# Copy all the binary files to host system.
+$ docker run --rm -it \
+    -v "$HOME/bin":/mnt \
+    -u $(id -u):$(id -g) \
+    gcr.io/panoptes-survey/plate-solver /bin/bash -c "cp -rv bin/* /mnt/"
 ```
 
 ### Setup `$PATH`

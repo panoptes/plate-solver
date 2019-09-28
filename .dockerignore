@@ -1,0 +1,4 @@
+README.md
+docker/*
+!docker/Dockerfile
+.git

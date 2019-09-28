@@ -1,6 +1,6 @@
 FROM debian:buster-slim
 
-COPY bin/ /tmp/bin
+COPY . /tmp
 
 RUN apt-get update && \
     apt-get install --no-install-recommends -y astrometry.net && \
