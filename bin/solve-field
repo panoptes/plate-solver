@@ -3,6 +3,7 @@
 SOLVE_FILE=$1
 INDEX_DIR=${INDEX_DIR:-${HOME}/.astrometry}
 ASTROMETRY_URL=${ASTROMETRY_URL:-http://broiler.astrometry.net/~dstn/4200}
+CONTAINER_NAME=${CONTAINER_NAME:-plate-solver}
 
 # Look for index files
 index_count="$(find ${INDEX_DIR}/index*.fits | wc -l)"
@@ -49,6 +50,6 @@ else
     	-v "${INDEX_DIR}":/usr/share/astrometry \
     	-v "${PWD}":/tmp \
     	--user $(id -u):$(id -g) \
-    	panoptes/plate-solver "${@:2}" "/tmp/${SOLVE_FILE}"
+    	${CONTAINER_NAME} "${@:2}" "/tmp/${SOLVE_FILE}"
 fi
 
