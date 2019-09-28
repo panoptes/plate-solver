@@ -1,17 +1,17 @@
 Plate Solver
 ============
 
-An [astrometry.net](astrometry.net) plate-solving service wrapped up in a Docker
+An [astrometry.net](http://astrometry.net/) plate-solving service wrapped up in a Docker
 image.
 
 # Using `plate-solver`
 
-## Get
+## Install
 
 ### Get Docker
 You will need to have [Docker](https://www.docker.com) up and running on your system.
 The [official docs](https://www.docker.com/get-started) provide some ways to do this
-but a simpel way is:
+but a simple way is:
 
 ```bash
 $ curl -fsSL https://get.docker.com -o get-docker.sh
@@ -38,33 +38,8 @@ The `plate-solver` image contains a bash script that will properly run the astro
 for download if they are not found. If you have existing index files you can specify
 them the first time and a link will be created so you are not asked again.
 
-### Create container
-
-To get the script on your host system, first create a container from the image:
-
-```bash
-$ docker create --name plate-solver gcr.io/panoptes-survey/plate-solver
-```
-
-You can verify the container was created by listing the running containers:
-
-```bash
-$ docker ps -a
-```
-
-You should see something like:
-
-```
-➜ docker ps -a
-CONTAINER ID        IMAGE                                 COMMAND             CREATED             STATUS              PORTS               NAMES
-00034c0c60b6        gcr.io/panoptes-survey/plate-solver   "solve-field"       3 seconds ago       Created                                 plate-solver
-```
-
-### Copy `solve-field` script
-
-Now we want to copy the `solve-field` script (this is our custom script) to your system and put it
-somewhere so that you can use it.  The easiest way to do this is to create a `bin` directory in your
-home directory:
+To use the the `solve-field` and other scripts you must first copy them to your host system.
+The easiest way to do this is to create a `bin` directory in your home directory:
 
 ```bash
 # Go home
@@ -82,7 +57,7 @@ $ docker run --rm -it \
 
 ### Setup `$PATH`
 
-You will need to make sure your `$PATH` variable can find this directory:
+You will need to make sure your `$PATH` variable can find your `bin` directory:
 
 > Note: Make sure to use single quotes in the following command.
 
