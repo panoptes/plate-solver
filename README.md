@@ -25,7 +25,7 @@ Once you have the `docker` command on your system you will need to pull the `pla
 image from the Google Cloud Registry servers:
 
 ```bash
-$ docker pull gcr.io/panoptes-survey/plate-solver
+$ docker pull gcr.io/panoptes-exp/panoptes-plate-solver
 ```
 
 #### Setup
@@ -43,8 +43,8 @@ $ mkdir -p ~/bin
 # Copy all the binary files to host system.
 $ docker run --rm -it \
     -v "$HOME/bin":/mnt \
-    -u $(id -u):$(id -g) \
-    gcr.io/panoptes-survey/plate-solver /bin/bash -c "cp -rv bin/* /mnt/"
+    -u "$(id -u)":"$(id -g)" \
+    gcr.io/panoptes-exp/panoptes-plate-solver /bin/bash -c "cp -rv bin/* /mnt/"
 ```
 
 #### Setup `$PATH`

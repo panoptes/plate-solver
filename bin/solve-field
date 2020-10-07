@@ -1,4 +1,6 @@
-#!/bin/bash -e
+#!/usr/bin/env bash
+
+set -e
 
 SOLVE_FILE=$1
 INDEX_DIR=${INDEX_DIR:-${HOME}/.astrometry}
