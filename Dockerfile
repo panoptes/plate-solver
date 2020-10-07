@@ -21,4 +21,4 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
-CMD ["/app/solve-field"]
+CMD ["/usr/bin/solve-field"]
