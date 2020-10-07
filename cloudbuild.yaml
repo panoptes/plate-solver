@@ -14,4 +14,4 @@ steps:
   args:
   - 'push'
   - 'gcr.io/${PROJECT_ID}/panoptes-plate-solver:latest'
-  waitFor: ['amd64-base']
+  waitFor: ['base']
