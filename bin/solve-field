@@ -3,11 +3,11 @@
 set -e
 
 SOLVE_FILE=$1
-INDEX_DIR=${INDEX_DIR:-${HOME}/.astrometry}
+INDEX_DIR=${INDEX_DIR:-/usr/share/astrometry}
 ASTROMETRY_URL=${ASTROMETRY_URL:-http://broiler.astrometry.net/~dstn/4200}
 
-IMAGE_NAME=${IMAGE_NAME:-gcr.io/panoptes-survey/plate-solver:latest}
-CONTAINER_NAME=${CONTAINER_NAME:-plate-solver}
+IMAGE_NAME=${IMAGE_NAME:-gcr.io/panoptes-exp/panoptes-plate-solver:latest}
+CONTAINER_NAME=${CONTAINER_NAME:-panoptes-plate-solver}
 
 # Look for index files
 index_count="$(find ${INDEX_DIR}/index*.fits | wc -l)"
@@ -16,7 +16,7 @@ if [[ ${index_count} -eq 0  ]]; then
     echo "No index files found. Please enter location for index files."
     echo "If no files are found at that location you will be prompted to download them."
     echo ""
-    read -p "astrometry.net index location [${HOME}/.astrometry]: " NEW_DIR
+    read -p "astrometry.net index location [/usr/share/astrometry]: " NEW_DIR
     NEW_DIR=${NEW_DIR:-$INDEX_DIR}
 
     index_count="$(find ${NEW_DIR}/index*.fits | wc -l)"
