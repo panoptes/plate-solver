@@ -14,7 +14,7 @@ index_count="$(find ${INDEX_DIR}/index*.fits | wc -l)"
 if [[ ${index_count} -eq 0  ]]; then
     echo ""
     echo "No index files found. Please enter location for index files."
-    echo "If no files are found at that locaiton you will be prompted to download them."
+    echo "If no files are found at that location you will be prompted to download them."
     echo ""
     read -p "astrometry.net index location [${HOME}/.astrometry]: " NEW_DIR
     NEW_DIR=${NEW_DIR:-$INDEX_DIR}
@@ -53,7 +53,7 @@ else
         --rm \
     	-v "${INDEX_DIR}":/usr/share/astrometry \
     	-v "${PWD}":/tmp \
-    	--user $(id -u):$(id -g) \
+    	--user "$(id -u)":"$(id -g)" \
         --name "${CONTAINER_NAME}" \
     	${IMAGE_NAME} solve-field --batch "${@:2}" "/tmp/${SOLVE_FILE}"
 fi

@@ -6,4 +6,4 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - name: Build the Docker image
-        run: docker build . --file docker/Dockerfile --tag panoptes-plate-solver:$(date +%s)
+        run: docker build --tag panoptes-plate-solver:$(date +%s) .

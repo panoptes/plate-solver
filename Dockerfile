@@ -1,11 +1,11 @@
 FROM debian:buster-slim
 
-COPY . /tmp
-
+COPY ./bin/ /app/
 RUN apt-get update && \
-    apt-get install --no-install-recommends -y astrometry.net && \
+    apt-get install --no-install-recommends -y wget astrometry.net && \
     apt-get autoremove --purge -y && \
     apt-get -y clean && \
     rm -rf /var/lib/apt/lists/*
 
-WORKDIR /tmp
+WORKDIR /app
+CMD ["/app/solve-field"]

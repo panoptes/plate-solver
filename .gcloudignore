@@ -1,4 +1,4 @@
 README.md
-docker/*
-!docker/Dockerfile
+LICENSE
 .git
+.github
