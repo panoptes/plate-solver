@@ -1,21 +1,24 @@
-#!/bin/bash -e
+#!/usr/bin/env bash
+
+set -e
 
 CMD=$1
-IMAGE_NAME=${IMAGE_NAME:-gcr.io/panoptes-survey/plate-solver:latest}
+PROJECT_ID="${PROJECT_ID:-panoptes-exp}"
+IMAGE_NAME=${IMAGE_NAME:-gcr.io/${PROJECT_ID}/panoptes-plate-solver:latest}
 CONTAINER_NAME=${CONTAINER_NAME:-plate-solver}
 
 if [[ -z "$CMD" ]]; then
-    echo "No command given"
-    exit 1
+  echo "No command given"
+  exit 1
 fi
 
 if [ ! "$(docker ps -q -f name=${CONTAINER_NAME})" ]; then
-    docker run \
-        --rm \
-        -v "${INDEX_DIR}":/usr/share/astrometry \
-        -v "${PWD}":/tmp \
-        --user $(id -u):$(id -g) \
-        "${IMAGE_NAME}" "$@"
+  docker run \
+    --rm \
+    -v "${INDEX_DIR}":/usr/share/astrometry \
+    -v "${PWD}":/tmp \
+    --user "$(id -u)":"$(id -g)" \
+    "${IMAGE_NAME}" "$@"
 else
-    docker exec "${CONTAINER_NAME}" "$@"
+  docker exec "${CONTAINER_NAME}" "$@"
 fi
