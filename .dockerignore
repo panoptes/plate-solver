@@ -1,4 +1,6 @@
 README.md
-docker/*
-!docker/Dockerfile
+LICENSE
+cloudbuild.yaml
+!Dockerfile
 .git
+.github

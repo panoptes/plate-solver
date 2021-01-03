@@ -1,14 +1,9 @@
 name: Docker Image CI
-
-on: [push]
-
+on: [ push ]
 jobs:
-
   build:
- 
     runs-on: ubuntu-latest
- 
     steps:
-    - uses: actions/checkout@v1
-    - name: Build the Docker image
-      run: docker build . --file docker/Dockerfile --tag plate-solver:$(date +%s)
+      - uses: actions/checkout@v1
+      - name: Build the Docker image
+        run: docker build --tag panoptes-plate-solver:$(date +%s) .
