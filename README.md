@@ -1,9 +1,9 @@
-PANOPTES Plate Solver
-=====================
+Plate Solver
+============
 
 An [astrometry.net](http://astrometry.net/) plate-solving service wrapped up in a Docker image.
 
-## Using `panoptes-plate-solver`
+## Using `plate-solver`
 
 > Warning: The below assumes that you are running a linux variant and have a user with an id of `1000`, which should be the case if you are the primary user on your system.
 >
@@ -28,7 +28,7 @@ Once you have the `docker` command on your system you will need to pull the `pla
 image from the Google Cloud Registry servers:
 
 ```bash
-$ docker pull gcr.io/panoptes-exp/panoptes-plate-solver
+$ docker pull gcr.io/panoptes-exp/plate-solver
 ```
 
 ### Setup
@@ -46,7 +46,7 @@ $ mkdir -p ~/bin
 # Copy all the binary files to host system.
 $ docker run --rm -it \
     -v "$HOME/bin":/tmp \
-    gcr.io/panoptes-exp/panoptes-plate-solver /bin/bash -c "cp -rv /app/* /tmp/"
+    gcr.io/panoptes-exp/plate-solver /bin/bash -c "cp -rv /app/* /tmp/"
 ```
 
 ### Setup `$PATH`
@@ -86,7 +86,7 @@ files, download to a local folder and then see instructions in
 
 > Note: this is for developers working on the Docker image itself. If you just need to use the plate-solver you can ignore this section.
 
-### Building `panoptes-plate-solver` locally
+### Building `plate-solver` locally
 
 You can build with the standard docker commands. e.g.:
 
