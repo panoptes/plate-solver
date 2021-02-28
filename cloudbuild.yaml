@@ -1,0 +1,17 @@
+steps:
+# Build
+- name: 'gcr.io/cloud-builders/docker'
+  id: 'base'
+  args:
+  - 'build'
+  - '--tag=gcr.io/${PROJECT_ID}/panoptes-plate-solver:latest'
+  - '.'
+  waitFor: ['-']
+
+# Push
+- name: 'gcr.io/cloud-builders/docker'
+  id: 'push-base'
+  args:
+  - 'push'
+  - 'gcr.io/${PROJECT_ID}/panoptes-plate-solver:latest'
+  waitFor: ['base']
