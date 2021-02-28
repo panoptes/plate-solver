@@ -3,20 +3,6 @@
 set -e
 
 SOLVE_FILE=$1
-INDEX_DIR=${INDEX_DIR:-/usr/share/astrometry}
-ASTROMETRY_URL=${ASTROMETRY_URL:-http://broiler.astrometry.net/~dstn/4200}
 
-IMAGE_NAME=${IMAGE_NAME:-gcr.io/panoptes-exp/panoptes-plate-solver:latest}
-CONTAINER_NAME=${CONTAINER_NAME:-panoptes-plate-solver}
-
-# If no file passed, show help options
-if ! test -f "${SOLVE_FILE}"; then
-  docker run -it "${IMAGE_NAME}" solve-field -h
-else
-  # Run the solve command
-  docker run -it \
-    -v "${PWD}":/tmp \
-    --user "$(id -u)":"$(id -g)" \
-    --name "${CONTAINER_NAME}" \
-    "${IMAGE_NAME}" solve-field --batch "${@:2}" "/tmp/${SOLVE_FILE}"
-fi
+# The "${@:2}" allow for passing options to solve-field
+run-astrometry-cmd solve-field "${@:2}" "/tmp/${SOLVE_FILE}"
