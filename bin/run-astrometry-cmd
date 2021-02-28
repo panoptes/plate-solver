@@ -3,22 +3,20 @@
 set -e
 
 CMD=$1
-PROJECT_ID="${PROJECT_ID:-panoptes-exp}"
-IMAGE_NAME=${IMAGE_NAME:-gcr.io/${PROJECT_ID}/panoptes-plate-solver:latest}
-CONTAINER_NAME=${CONTAINER_NAME:-plate-solver}
+
+IMAGE_NAME="${IMAGE_NAME:-gcr.io/panoptes-exp/panoptes-plate-solver:latest}"
+
+# If you want different index files, uncomment the following line:
+# INDEX_DIR="/path/to/index/files"
+# And add the following line to the "docker run" command below.
+#  -v "${INDEX_DIR}":/usr/share/astrometry \
 
 if [[ -z "$CMD" ]]; then
   echo "No command given"
   exit 1
 fi
 
-if [ ! "$(docker ps -q -f name=${CONTAINER_NAME})" ]; then
-  docker run \
-    --rm \
-    -v "${INDEX_DIR}":/usr/share/astrometry \
-    -v "${PWD}":/tmp \
-    --user "$(id -u)":"$(id -g)" \
-    "${IMAGE_NAME}" "$@"
-else
-  docker exec "${CONTAINER_NAME}" "$@"
-fi
+docker run \
+  --rm -it \
+  -v "${PWD}:/tmp" \
+  "${IMAGE_NAME}" "$@"
