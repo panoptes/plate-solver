@@ -1,8 +1,0 @@
-#!/usr/bin/env bash
-
-set -e
-
-SOLVE_FILE=$1
-
-# The "${@:2}" allow for passing options to solve-field
-run-astrometry-cmd solve-field "${@:2}" "/tmp/${SOLVE_FILE}"
