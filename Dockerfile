@@ -26,15 +26,15 @@ RUN apt-get update && \
 
 WORKDIR /app
 COPY --chown=${username}:${username} environment.yaml /tmp/env.yaml
-RUN wget -q https://micromamba.snakepit.net/api/micromamba/linux-64/latest -O micromamba.tar.bz2 && \
-    tar -xvjf micromamba.tar.bz2 bin/micromamba && \
-    rm micromamba.tar.bz2 && \
-    bin/micromamba install -y -f /tmp/env.yaml && \
-    bin/micromamba clean --all --yes && \
-    rm micromamba.tar.bz2
+RUN wget -q https://micromamba.snakepit.net/api/micromamba/linux-64/latest -O micromamba.tar.bz2
+#    tar -xvjf micromamba.tar.bz2 bin/micromamba && \
+#    rm micromamba.tar.bz2 && \
+#    bin/micromamba install -y -f /tmp/env.yaml && \
+#    bin/micromamba clean --all --yes && \
+#    rm micromamba.tar.bz2
 
-COPY watcher.py .
-COPY handler.py .
-USER solve-user
-ENTRYPOINT [ "/app/watcher.py" ]
-CMD [ "--handler handler --directory ." ]
+#COPY watcher.py .
+#COPY handler.py .
+#USER solve-user
+#ENTRYPOINT [ "/app/watcher.py" ]
+#CMD [ "--handler handler --directory ." ]
