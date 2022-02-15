@@ -28,8 +28,7 @@ RUN apt-get update && \
 
 COPY --chown=${username}:${username} environment.yaml /tmp/env.yaml
 RUN /opt/conda/bin/conda install -c conda-forge -y mamba && \
-    /opt/conda/bin/mamba update -c conda-forge --all && \
-    /opt/conda/bin/mamba env update -f /tmp/env.yaml && \
+    /opt/conda/bin/mamba env update --file /tmp/env.yaml && \
     /opt/conda/bin/mamba clean --all --yes
 
 USER "${username}"
