@@ -27,9 +27,8 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 COPY --chown=${username}:${username} environment.yaml /tmp/env.yaml
-RUN /opt/conda/bin/conda install -c conda-forge -y mamba && \
-    /opt/conda/bin/mamba env update --file /tmp/env.yaml && \
-    /opt/conda/bin/mamba clean --all --yes
+RUN /opt/conda/bin/conda env update --file /tmp/env.yaml && \
+    /opt/conda/bin/conda clean --all --yes
 
 USER "${username}"
 WORKDIR /app
