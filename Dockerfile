@@ -1,9 +1,5 @@
 FROM mambaorg/micromamba:0.21.2
 
-COPY --chown=$MAMBA_USER:$MAMBA_USER environment.yaml /tmp/env.yaml
-RUN micromamba install -y -f /tmp/env.yaml && \
-    micromamba clean --all --yes
-
 USER root
 ADD http://data.astrometry.net/4100/index-4110.fits /usr/share/astrometry/
 ADD http://data.astrometry.net/4100/index-4111.fits /usr/share/astrometry/
@@ -26,8 +22,11 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 USER $MAMBA_USER
+COPY --chown=$MAMBA_USER:$MAMBA_USER environment.yaml /tmp/env.yaml
+RUN micromamba install -y -f /tmp/env.yaml && \
+    micromamba clean --all --yes
+
 WORKDIR /app
 COPY watcher.py .
 COPY handler.py .
-USER solve-user
-CMD [ "/app/watcher.py --directory ." ]
+CMD [ "/app/watcher.py --handler handler --directory ." ]
