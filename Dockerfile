@@ -1,19 +1,17 @@
 FROM debian:buster-slim
 ARG username=solve-user
 
-
-#ADD http://data.astrometry.net/4100/index-4110.fits /usr/share/astrometry/
-#ADD http://data.astrometry.net/4100/index-4111.fits /usr/share/astrometry/
-#ADD http://data.astrometry.net/4100/index-4112.fits /usr/share/astrometry/
-#ADD http://data.astrometry.net/4100/index-4108.fits /usr/share/astrometry/
-#ADD http://data.astrometry.net/4100/index-4113.fits /usr/share/astrometry/
-#ADD http://data.astrometry.net/4100/index-4114.fits /usr/share/astrometry/
-#ADD http://data.astrometry.net/4100/index-4115.fits /usr/share/astrometry/
-#ADD http://data.astrometry.net/4100/index-4116.fits /usr/share/astrometry/
-#ADD http://data.astrometry.net/4100/index-4117.fits /usr/share/astrometry/
-#ADD http://data.astrometry.net/4100/index-4118.fits /usr/share/astrometry/
-#ADD http://data.astrometry.net/4100/index-4119.fits /usr/share/astrometry/
-#
+ADD http://data.astrometry.net/4100/index-4110.fits /usr/share/astrometry/
+ADD http://data.astrometry.net/4100/index-4111.fits /usr/share/astrometry/
+ADD http://data.astrometry.net/4100/index-4112.fits /usr/share/astrometry/
+ADD http://data.astrometry.net/4100/index-4108.fits /usr/share/astrometry/
+ADD http://data.astrometry.net/4100/index-4113.fits /usr/share/astrometry/
+ADD http://data.astrometry.net/4100/index-4114.fits /usr/share/astrometry/
+ADD http://data.astrometry.net/4100/index-4115.fits /usr/share/astrometry/
+ADD http://data.astrometry.net/4100/index-4116.fits /usr/share/astrometry/
+ADD http://data.astrometry.net/4100/index-4117.fits /usr/share/astrometry/
+ADD http://data.astrometry.net/4100/index-4118.fits /usr/share/astrometry/
+ADD http://data.astrometry.net/4100/index-4119.fits /usr/share/astrometry/
 
 RUN apt-get update && \
     apt-get install --no-install-recommends -y \
@@ -28,13 +26,13 @@ RUN apt-get update && \
 
 WORKDIR /app
 COPY --chown=${username}:${username} environment.yaml /tmp/env.yaml
-RUN wget -q https://micromamba.snakepit.net/api/micromamba/linux-64/latest -O micromamba.tar.bz2
-    tar jxvf micromamba.tar.bz2 && \
-    /app/bin/micromamba install -y -f /tmp/env.yaml && \
-    /app/bin/micromamba clean --all --yes
+RUN wget -qO- https://micromamba.snakepit.net/api/micromamba/linux-64/latest | tar -xvj bin/micromamba && \
+    bin/micromamba install -y -f /tmp/env.yaml && \
+    bin/micromamba clean --all --yes && \
+    rm micromamba.tar.bz2
 
-#COPY watcher.py .
-#COPY handler.py .
-#USER solve-user
-#ENTRYPOINT [ "/app/watcher.py" ]
-#CMD [ "--handler handler --directory ." ]
+COPY watcher.py .
+COPY handler.py .
+USER solve-user
+ENTRYPOINT [ "/app/watcher.py" ]
+CMD [ "--handler handler --directory ." ]
