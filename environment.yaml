@@ -1,0 +1,12 @@
+name: base
+channels:
+  - conda-forge
+dependencies:
+  - astropy
+  - matplotlib-base
+  - pip
+  - python=3.10.1
+  - typer
+  - watchdog
+  - pip:
+      - panoptes-utils

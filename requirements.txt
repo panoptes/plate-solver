@@ -1,3 +1,0 @@
-panoptes-utils
-typer
-watchdog
