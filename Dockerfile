@@ -33,5 +33,5 @@ RUN /opt/conda/bin/conda install -c conda-forge mamba && \
 WORKDIR /app
 COPY watcher.py .
 COPY handler.py .
-ENTRYPOINT [ "/app/watcher.py" ]
+ENTRYPOINT [ "/opt/conda/bin/python /app/watcher.py" ]
 CMD [ "--directory ." ]
