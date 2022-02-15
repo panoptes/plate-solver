@@ -1,6 +1,8 @@
 FROM condaforge/miniforge3
 ARG username=solve-user
 
+ARG DEBIAN_FRONTEND=noninteractive
+
 ADD http://data.astrometry.net/4100/index-4110.fits /usr/share/astrometry/
 ADD http://data.astrometry.net/4100/index-4111.fits /usr/share/astrometry/
 ADD http://data.astrometry.net/4100/index-4112.fits /usr/share/astrometry/
