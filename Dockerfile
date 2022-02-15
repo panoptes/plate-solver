@@ -1,4 +1,4 @@
-FROM debian:slim-buster
+FROM debian:buster-slim
 
 ADD http://data.astrometry.net/4100/index-4110.fits /usr/share/astrometry/
 ADD http://data.astrometry.net/4100/index-4111.fits /usr/share/astrometry/
