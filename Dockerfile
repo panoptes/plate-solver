@@ -28,11 +28,10 @@ WORKDIR /app
 COPY --chown=${username}:${username} environment.yaml /tmp/env.yaml
 RUN wget -qO- https://micromamba.snakepit.net/api/micromamba/linux-64/latest | tar xvj bin/micromamba && \
     bin/micromamba install -y -f /tmp/env.yaml && \
-    bin/micromamba clean --all --yes && \
-    rm micromamba.tar.bz2
+    bin/micromamba clean --all --yes
 
-#COPY watcher.py .
-#COPY handler.py .
-#USER solve-user
-#ENTRYPOINT [ "/app/watcher.py" ]
-#CMD [ "--directory ." ]
+COPY watcher.py .
+COPY handler.py .
+USER solve-user
+ENTRYPOINT [ "/app/watcher.py" ]
+CMD [ "--directory ." ]
