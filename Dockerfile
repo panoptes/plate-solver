@@ -15,7 +15,7 @@ ADD http://data.astrometry.net/4100/index-4119.fits /usr/share/astrometry/
 
 RUN apt-get update && \
     apt-get install --no-install-recommends -y \
-      wget ca-certificates \
+      wget ca-certificates bzip2 \
       astrometry.net dcraw exiftool \
       && \
     useradd -ms /bin/bash ${username} && \
@@ -26,15 +26,13 @@ RUN apt-get update && \
 
 WORKDIR /app
 COPY --chown=${username}:${username} environment.yaml /tmp/env.yaml
-RUN wget -q https://micromamba.snakepit.net/api/micromamba/linux-64/latest -O micromamba.tar.bz2
-#    tar -xvjf micromamba.tar.bz2 bin/micromamba && \
-#    rm micromamba.tar.bz2 && \
-#    bin/micromamba install -y -f /tmp/env.yaml && \
-#    bin/micromamba clean --all --yes && \
-#    rm micromamba.tar.bz2
+RUN wget -qO- https://micromamba.snakepit.net/api/micromamba/linux-64/latest | tar xvj bin/micromamba && \
+    bin/micromamba install -y -f /tmp/env.yaml && \
+    bin/micromamba clean --all --yes && \
+    rm micromamba.tar.bz2
 
 #COPY watcher.py .
 #COPY handler.py .
 #USER solve-user
 #ENTRYPOINT [ "/app/watcher.py" ]
-#CMD [ "--handler handler --directory ." ]
+#CMD [ "--directory ." ]
