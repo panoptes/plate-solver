@@ -5,7 +5,7 @@ dependencies:
   - astropy
   - matplotlib-base
   - pip
-  - python=3.10.1
+  - python=3.10
   - ruamel
   - typer
   - watchdog
