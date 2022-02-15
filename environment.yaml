@@ -6,6 +6,7 @@ dependencies:
   - matplotlib-base
   - pip
   - python=3.10.1
+  - ruamel
   - typer
   - watchdog
   - pip:
