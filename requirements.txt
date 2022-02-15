@@ -1,0 +1,3 @@
+panoptes-utils[config]
+typer
+watchdog
