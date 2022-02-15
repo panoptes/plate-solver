@@ -37,5 +37,5 @@ class Handler(FileSystemEventHandler):
                     print(f'Problem solving {filename=}: {e!r}')
 
                 print(f'Compressing FITS file')
-                filename = fits_utils.fpack(filename)
+                filename = fits_utils.fpack(str(filename))
                 print(f'Solved and compressed file created: {filename=}')
