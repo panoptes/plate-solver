@@ -26,12 +26,12 @@ RUN apt-get update && \
     apt-get -y clean && \
     rm -rf /var/lib/apt/lists/*
 
-USER "${username}"
 COPY --chown=${username}:${username} environment.yaml /tmp/env.yaml
 RUN /opt/conda/bin/conda install -c conda-forge -y mamba && \
     /opt/conda/bin/mamba install -y -f /tmp/env.yaml && \
     /opt/conda/bin/mamba clean --all --yes
 
+USER "${username}"
 WORKDIR /app
 COPY watcher.py .
 COPY handler.py .
