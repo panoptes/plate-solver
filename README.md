@@ -20,7 +20,7 @@ $ sh get-docker.sh
 
 ### Get `plate-solver` Image
 
-Once you have the `docker` command on your system you will need to pull the 
+Once you have the `docker` command on your system you will need to pull the
 `panoptes-plate-solver` image from the Google Cloud Registry servers:
 
 ```bash
@@ -29,8 +29,7 @@ $ docker pull gcr.io/panoptes-exp/panoptes-plate-solver
 
 ### Use
 
-The default service is running the `watcher.py` script with the current directory 
-and the default handler.
+The default service is running the `watcher.py` script with the current directory and the default handler.
 
 The entrypoint is the script itself with the default options specified as the current
 `CMD`. These can be changed at the command line with the appropriate options:
@@ -39,9 +38,17 @@ The entrypoint is the script itself with the default options specified as the cu
 docker run --rm -it gcr.io/panoptes-exp/panoptes-plate-solver --help
 ```
 
-### Custom handler
+### Handler
 
-The `watch.py` takes an optional argument `--handler` that points to a python file
-containing a `Handler` class. See `handler.py` for an example. The 
-[`watchdog`](https://pypi.org/project/watchdog/) library provides the underlying 
-event and handler class support.
+The default handler will listen on a directory and perform the following operations:
+
+* Attempt to extract a thumbnail from any `.cr2` files.
+* Convert any `.cr2` files to `.fits` files.
+* Plate-solve any `.fits` files.
+* Compress (via `fpack`) any `.fits` files.
+
+The `watch.py` takes a `--handler` argument that points to a python file containing a `Handler` class,
+default `--handler handler`, which points to
+`handler.py`. See `handler.py` for an example.
+
+The [`watchdog`](https://pypi.org/project/watchdog/) library provides the underlying event and handler class support.
