@@ -14,8 +14,8 @@ ADD http://data.astrometry.net/4100/index-4119.fits /usr/share/astrometry/
 
 RUN apt-get update && \
     apt-get install --no-install-recommends -y \
-      wget astrometry.net dcraw exiftool \
-      python3-astropy python3-ruamel.yaml && \
+      wget astrometry.net dcraw exiftool gcc pkg-config \
+      python3-astropy python3-photutils python3-ruamel.yaml && \
     useradd -ms /bin/bash solve-user && \
     chown -R solve-user:solve-user /usr/share/astrometry && \
     apt-get autoremove --purge -y && \
@@ -31,4 +31,4 @@ COPY watcher.py .
 COPY handler.py .
 USER solve-user
 ENTRYPOINT [ "/usr/local/bin/python /app/watcher.py" ]
-CMD [ "--help" ]
+CMD [ "--directory ." ]
