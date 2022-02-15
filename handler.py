@@ -1,13 +1,8 @@
-import time
-import typer
 from pathlib import Path
 
-from watchdog.observers import Observer
+import typer
+from panoptes.utils.images import make_pretty_image, cr2, fits as fits_utils
 from watchdog.events import FileSystemEventHandler
-
-from panoptes.utils.images import make_pretty_image
-from panoptes.utils.images import cr2
-from panoptes.utils.images import fits as fits_utils
 
 
 class Handler(FileSystemEventHandler):
@@ -39,33 +34,3 @@ class Handler(FileSystemEventHandler):
                 typer.echo(f'Compressing FITS file')
                 filename = fits_utils.fpack(filename)
                 typer.echo(f'Solved and compressed file created: {filename=}')
-
-
-class Watcher:
-
-    def __init__(self, directory: Path):
-        self.observer = Observer()
-        self.directory = directory
-
-    def run(self):
-        event_handler = Handler()
-        self.observer.schedule(event_handler, str(self.directory), recursive=True)
-        self.observer.start()
-        try:
-            while True:
-                time.sleep(1)
-        except Exception:
-            self.observer.stop()
-            print("Error")
-
-        self.observer.join()
-
-
-def main(directory: Path):
-    typer.echo(f'Starting watchdog on {directory}')
-    w = Watcher(directory=directory)
-    w.run()
-
-
-if __name__ == '__main__':
-    typer.run(main)

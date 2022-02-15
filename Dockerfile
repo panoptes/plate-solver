@@ -26,7 +26,8 @@ COPY requirements.txt .
 RUN pip3 install -r requirements.txt
 
 WORKDIR /app
-COPY watch.py .
+COPY watcher.py .
+COPY handler.py .
 USER solve-user
-ENTRYPOINT [ "/usr/local/bin/python /app/watch.py" ]
+ENTRYPOINT [ "/usr/local/bin/python /app/watcher.py" ]
 CMD [ "--help" ]
