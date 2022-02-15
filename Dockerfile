@@ -1,6 +1,5 @@
-FROM mambaorg/micromamba:0.21.2
+FROM python:3.10-slim-buster
 
-USER root
 ADD http://data.astrometry.net/4100/index-4110.fits /usr/share/astrometry/
 ADD http://data.astrometry.net/4100/index-4111.fits /usr/share/astrometry/
 ADD http://data.astrometry.net/4100/index-4112.fits /usr/share/astrometry/
@@ -13,20 +12,25 @@ ADD http://data.astrometry.net/4100/index-4117.fits /usr/share/astrometry/
 ADD http://data.astrometry.net/4100/index-4118.fits /usr/share/astrometry/
 ADD http://data.astrometry.net/4100/index-4119.fits /usr/share/astrometry/
 
+ARG username=solve-user
+
 RUN apt-get update && \
     apt-get install --no-install-recommends -y \
-      wget astrometry.net dcraw exiftool gcc pkg-config && \
-    chown -R "${MAMBA_USER}:${MAMBA_USER}" /usr/share/astrometry && \
+      wget astrometry.net dcraw exiftool && \
+    useradd -ms /bin/bash ${username} && \
+    chown -R ${username}:${username} /usr/share/astrometry && \
     apt-get autoremove --purge -y && \
     apt-get -y clean && \
     rm -rf /var/lib/apt/lists/*
 
-USER $MAMBA_USER
-COPY --chown=$MAMBA_USER:$MAMBA_USER environment.yaml /tmp/env.yaml
-RUN micromamba install -y -f /tmp/env.yaml && \
-    micromamba clean --all --yes
+COPY --chown=${username}:${username} environment.yaml /tmp/env.yaml
+RUN wget -qO- https://micromamba.snakepit.net/api/micromamba/linux-64/latest | tar -xvj /bin/micromamba && \
+    /bin/micromamba install -y -f /tmp/env.yaml && \
+    /bin/micromamba clean --all --yes
 
 WORKDIR /app
 COPY watcher.py .
 COPY handler.py .
-CMD [ "/app/watcher.py --handler handler --directory ." ]
+USER solve-user
+ENTRYPOINT [ "/usr/local/bin/python /app/watcher.py" ]
+CMD [ "--handler handler --directory ." ]
