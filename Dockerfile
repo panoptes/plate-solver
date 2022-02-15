@@ -1,4 +1,4 @@
-FROM python:3.10-slim-buster
+FROM debian:slim-buster
 
 ADD http://data.astrometry.net/4100/index-4110.fits /usr/share/astrometry/
 ADD http://data.astrometry.net/4100/index-4111.fits /usr/share/astrometry/
