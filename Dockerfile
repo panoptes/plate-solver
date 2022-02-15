@@ -1,4 +1,4 @@
-FROM condaforge/miniforge3
+FROM python:3.10-slim-buster
 ARG username=solve-user
 
 ARG DEBIAN_FRONTEND=noninteractive
@@ -26,14 +26,12 @@ RUN apt-get update && \
     apt-get -y clean && \
     rm -rf /var/lib/apt/lists/*
 
-COPY --chown=${username}:${username} environment.yaml /tmp/env.yaml
-RUN /opt/conda/bin/conda update --all && \
-    /opt/conda/bin/conda env update --file /tmp/env.yaml && \
-    /opt/conda/bin/conda clean --all --yes
-
 USER "${username}"
 WORKDIR /app
+COPY requirements.txt .
+RUN pip install -r requirements.txt
+
 COPY watcher.py .
 COPY handler.py .
-ENTRYPOINT [ "/opt/conda/bin/python /app/watcher.py" ]
+ENTRYPOINT [ "/app/watcher.py" ]
 CMD [ "--directory ." ]
