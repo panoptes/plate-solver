@@ -19,9 +19,14 @@ RUN apt-get update && \
     chown -R solve-user:solve-user /usr/share/astrometry && \
     apt-get autoremove --purge -y && \
     apt-get -y clean && \
-    rm -rf /var/lib/apt/lists/* && \
-    pip3 install panoptes-utils[config,images]
+    rm -rf /var/lib/apt/lists/*
 
-USER solve-user
 WORKDIR /tmp
-CMD ["/usr/bin/solve-field"]
+COPY requirements.txt .
+RUN pip3 install -r requirements.txt
+
+WORKDIR /app
+COPY watch.py .
+USER solve-user
+ENTRYPOINT [ "/usr/local/bin/python /app/watch.py" ]
+CMD [ "--help" ]
