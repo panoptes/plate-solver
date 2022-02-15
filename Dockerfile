@@ -26,9 +26,11 @@ RUN apt-get update && \
 
 WORKDIR /app
 COPY --chown=${username}:${username} environment.yaml /tmp/env.yaml
-RUN wget -qO- https://micromamba.snakepit.net/api/micromamba/linux-64/latest | tar xvj bin/micromamba && \
+RUN wget -q https://micromamba.snakepit.net/api/micromamba/linux-64/latest -O micromamba.tar.bz2 && \
+    tar xvjf micromamba.tar.bz2 && \
     /app/bin/micromamba install -y -f /tmp/env.yaml && \
-    /app/bin/micromamba clean --all --yes
+    /app/bin/micromamba clean --all --yes && \
+    rm -rf info && rm micromamba.tar.bz2
 
 COPY watcher.py .
 COPY handler.py .
