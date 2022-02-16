@@ -7,7 +7,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 
 ENV INCOMING_DIR=$incoming_dir
 ENV OUTGOING_DIR=$outgoing_dir
-ENV SOLVE_OPTS="--gues-scale --overwrite"
+ENV SOLVE_OPTS="--guess-scale --overwrite"
 
 RUN apt-get update && \
     apt-get install --no-install-recommends -y \
