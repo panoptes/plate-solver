@@ -1,9 +1,12 @@
 FROM debian:buster-slim
 ARG username=solve-user
-ARG listen_dir=/incoming
+ARG incoming_dir=/incoming
+ARG outgoing_dir=/outgoing
 
 ARG DEBIAN_FRONTEND=noninteractive
 
+ENV INCOMING_DIR=$incoming_dir
+ENV OUTGOING_DIR=$outgoing_dir
 
 RUN apt-get update && \
     apt-get install --no-install-recommends -y \
@@ -14,8 +17,10 @@ RUN apt-get update && \
     # Add user.
     useradd -ms /bin/bash ${username} && \
     # Set up directories.
-    mkdir "${listen_dir}" && \
-    chown -R ${username}:${username} "${listen_dir}" && \
+    mkdir "${incoming_dir}" && \
+    mkdir "${outgoing_dir}" && \
+    chown -R ${username}:${username} "${incoming_dir}" && \
+    chown -R ${username}:${username} "${outgoing_dir}" && \
     chown -R ${username}:${username} /usr/share/astrometry && \
     # Cleanup
     apt-get autoremove --purge -y && \

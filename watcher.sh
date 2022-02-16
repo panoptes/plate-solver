@@ -3,12 +3,12 @@
 # Taken from:
 # https://unix.stackexchange.com/questions/323901/how-to-use-inotifywait-to-watch-a-directory-for-creation-of-files-of-a-specific
 
-WATCH_DIR=/incoming
+INCOMING_DIR="${INCOMING_DIR:-/incoming}"
 
-echo "Watching ${WATCH_DIR} for file changes..."
+echo "Watching ${INCOMING_DIR} for file changes..."
 
 inotifywait \
-  "${WATCH_DIR}" \
+  "${INCOMING_DIR}" \
   --monitor \
   -e close \
   --recursive \
