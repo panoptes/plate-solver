@@ -10,7 +10,7 @@ event=$4
 
 echo "Event: $datetime $dir $filename $event"
 
-if [ $event == 'CLOSE' ]; then
+if [ $event == "*CLOSE*" ]; then
   if [ ${filename##*.} == 'fits' ]; then
     echo "Running solve-field: $SOLVE_OPTS ${dir}/${filename}"
     /usr/bin/solve-field $SOLVE_OPTS "${dir}/${filename}"
