@@ -1,8 +1,26 @@
-FROM condaforge/miniforge3
+FROM debian:buster-slim
 ARG username=solve-user
+ARG listen_dir=/incoming
 
 ARG DEBIAN_FRONTEND=noninteractive
 
+
+RUN apt-get update && \
+    apt-get install --no-install-recommends -y \
+      wget ca-certificates bzip2 \
+      astrometry.net dcraw exiftool libcfitsio-bin \
+      inotify-tools \
+      && \
+    # Add user.
+    useradd -ms /bin/bash ${username} && \
+    # Set up directories.
+    mkdir "${listen_dir}" && \
+    chown -R ${username}:${username} "${listen_dir}" && \
+    chown -R ${username}:${username} /usr/share/astrometry && \
+    # Cleanup
+    apt-get autoremove --purge -y && \
+    apt-get -y clean && \
+    rm -rf /var/lib/apt/lists/*
 
 #ADD http://data.astrometry.net/4100/index-4110.fits /usr/share/astrometry/
 #ADD http://data.astrometry.net/4100/index-4111.fits /usr/share/astrometry/
@@ -16,25 +34,8 @@ ARG DEBIAN_FRONTEND=noninteractive
 #ADD http://data.astrometry.net/4100/index-4118.fits /usr/share/astrometry/
 #ADD http://data.astrometry.net/4100/index-4119.fits /usr/share/astrometry/
 
-RUN apt-get update && \
-    apt-get install --no-install-recommends -y \
-      wget ca-certificates bzip2 \
-      astrometry.net dcraw exiftool \
-      && \
-    useradd -ms /bin/bash ${username} && \
-    chown -R ${username}:${username} /usr/share/astrometry && \
-    apt-get autoremove --purge -y && \
-    apt-get -y clean && \
-    rm -rf /var/lib/apt/lists/*
-
-COPY --chown=${username}:${username} environment.yaml /tmp/env.yaml
-RUN /opt/conda/bin/conda update --all && \
-    /opt/conda/bin/conda env update --file /tmp/env.yaml && \
-    /opt/conda/bin/conda clean --all --yes
-
-USER "${username}"
+USER ${username}
 WORKDIR /app
-COPY watcher.py .
-COPY handler.py .
-ENTRYPOINT [ "/opt/conda/bin/python /app/watcher.py" ]
-CMD [ "--directory ." ]
+COPY watcher.sh .
+COPY handler.sh .
+CMD [ "/app/watcher.sh" ]
