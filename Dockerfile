@@ -7,7 +7,6 @@ ARG DEBIAN_FRONTEND=noninteractive
 
 ENV INCOMING_DIR=$incoming_dir
 ENV OUTGOING_DIR=$outgoing_dir
-ENV SOLVE_OPTS="--guess-scale --overwrite"
 
 RUN apt-get update && \
     apt-get install --no-install-recommends -y \
@@ -39,6 +38,8 @@ ADD http://data.astrometry.net/4100/index-4116.fits /usr/share/astrometry/
 ADD http://data.astrometry.net/4100/index-4117.fits /usr/share/astrometry/
 ADD http://data.astrometry.net/4100/index-4118.fits /usr/share/astrometry/
 ADD http://data.astrometry.net/4100/index-4119.fits /usr/share/astrometry/
+
+ENV SOLVE_OPTS="--guess-scale --overwrite"
 
 USER ${username}
 WORKDIR /app
