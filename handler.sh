@@ -8,6 +8,9 @@ dir=$2
 filename=$3
 event=$4
 
-if [ ${filename##*.} == 'fits' ]; then
-  /usr/bin/solve-field $SOLVE_OPTS "${filename}"
+if [ $event == 'close' ]; then
+  if [ ${filename##*.} == 'fits' ]; then
+    echo "Running solve-field: $SOLVE_OPTS ${dir}/${filename}"
+    /usr/bin/solve-field $SOLVE_OPTS "${dir}/${filename}"
+  fi
 fi
