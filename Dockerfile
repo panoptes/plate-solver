@@ -22,17 +22,17 @@ RUN apt-get update && \
     apt-get -y clean && \
     rm -rf /var/lib/apt/lists/*
 
-#ADD http://data.astrometry.net/4100/index-4110.fits /usr/share/astrometry/
-#ADD http://data.astrometry.net/4100/index-4111.fits /usr/share/astrometry/
-#ADD http://data.astrometry.net/4100/index-4112.fits /usr/share/astrometry/
-#ADD http://data.astrometry.net/4100/index-4108.fits /usr/share/astrometry/
-#ADD http://data.astrometry.net/4100/index-4113.fits /usr/share/astrometry/
-#ADD http://data.astrometry.net/4100/index-4114.fits /usr/share/astrometry/
-#ADD http://data.astrometry.net/4100/index-4115.fits /usr/share/astrometry/
-#ADD http://data.astrometry.net/4100/index-4116.fits /usr/share/astrometry/
-#ADD http://data.astrometry.net/4100/index-4117.fits /usr/share/astrometry/
-#ADD http://data.astrometry.net/4100/index-4118.fits /usr/share/astrometry/
-#ADD http://data.astrometry.net/4100/index-4119.fits /usr/share/astrometry/
+ADD http://data.astrometry.net/4100/index-4110.fits /usr/share/astrometry/
+ADD http://data.astrometry.net/4100/index-4111.fits /usr/share/astrometry/
+ADD http://data.astrometry.net/4100/index-4112.fits /usr/share/astrometry/
+ADD http://data.astrometry.net/4100/index-4108.fits /usr/share/astrometry/
+ADD http://data.astrometry.net/4100/index-4113.fits /usr/share/astrometry/
+ADD http://data.astrometry.net/4100/index-4114.fits /usr/share/astrometry/
+ADD http://data.astrometry.net/4100/index-4115.fits /usr/share/astrometry/
+ADD http://data.astrometry.net/4100/index-4116.fits /usr/share/astrometry/
+ADD http://data.astrometry.net/4100/index-4117.fits /usr/share/astrometry/
+ADD http://data.astrometry.net/4100/index-4118.fits /usr/share/astrometry/
+ADD http://data.astrometry.net/4100/index-4119.fits /usr/share/astrometry/
 
 USER ${username}
 WORKDIR /app
