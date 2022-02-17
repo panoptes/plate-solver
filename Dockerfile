@@ -39,7 +39,7 @@ ADD http://data.astrometry.net/4100/index-4117.fits /usr/share/astrometry/
 ADD http://data.astrometry.net/4100/index-4118.fits /usr/share/astrometry/
 ADD http://data.astrometry.net/4100/index-4119.fits /usr/share/astrometry/
 
-ENV SOLVE_OPTS="--guess-scale --overwrite --dir ${OUTGOING_DIR}"
+ENV SOLVE_OPTS="--guess-scale --no-verify --downsample 4 --temp-axy --no-plots --overwrite --dir ${OUTGOING_DIR}"
 
 USER ${username}
 WORKDIR /app
