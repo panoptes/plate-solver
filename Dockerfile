@@ -6,7 +6,6 @@ ARG outgoing_dir=/outgoing
 ARG DEBIAN_FRONTEND=noninteractive
 
 ENV INCOMING_DIR=$incoming_dir
-ENV OUTGOING_DIR=$outgoing_dir
 
 ADD http://data.astrometry.net/4100/index-4110.fits /usr/share/astrometry/
 ADD http://data.astrometry.net/4100/index-4111.fits /usr/share/astrometry/
@@ -40,7 +39,7 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 
-ENV SOLVE_OPTS="--guess-scale --no-verify --downsample 4 --temp-axy --no-plots --overwrite --dir ${OUTGOING_DIR}"
+ENV SOLVE_OPTS="--guess-scale --no-verify --downsample 4 --temp-axy --no-plots --overwrite"
 
 USER ${username}
 WORKDIR /app

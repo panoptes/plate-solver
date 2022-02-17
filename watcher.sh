@@ -10,7 +10,7 @@ echo "Watching ${INCOMING_DIR} for file changes..."
 inotifywait \
   "${INCOMING_DIR}" \
   --monitor \
-  -e create \
+  -e close \
   --recursive \
   --timefmt '%Y-%m-%dT%H:%M:%S' \
   --format '%T %w %f %e' |
