@@ -8,9 +8,8 @@ dir=$2
 filename=$3
 event=$4
 
-echo "Event: $datetime $dir $filename $event"
-
 if [ ${filename##*.} == 'fits' ]; then
+  echo "Event: $datetime $dir $filename $event"
   echo "Running solve-field: $SOLVE_OPTS ${dir}/${filename}"
   /usr/bin/solve-field $SOLVE_OPTS "${dir}/${filename}"
 fi
