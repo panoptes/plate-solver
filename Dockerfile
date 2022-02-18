@@ -1,7 +1,6 @@
 FROM debian:buster-slim
 ARG username=solve-user
 ARG incoming_dir=/incoming
-ARG outgoing_dir=/outgoing
 
 ARG DEBIAN_FRONTEND=noninteractive
 
@@ -29,9 +28,7 @@ RUN apt-get update && \
     useradd -ms /bin/bash ${username} && \
     # Set up directories.
     mkdir "${incoming_dir}" && \
-    mkdir "${outgoing_dir}" && \
     chown -R ${username}:${username} "${incoming_dir}" && \
-    chown -R ${username}:${username} "${outgoing_dir}" && \
     chown -R ${username}:${username} /usr/share/astrometry && \
     # Cleanup
     apt-get autoremove --purge -y && \
