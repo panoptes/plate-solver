@@ -10,6 +10,6 @@ event=$4
 
 if [ ${filename##*.} == 'fits' ]; then
   echo "Event: $datetime $dir $filename $event"
-  echo "Running solve-field: $SOLVE_OPTS ${dir}/${filename}"
+  echo "Running 'solve-field $SOLVE_OPTS ${dir}/${filename}'"
   /usr/bin/solve-field $SOLVE_OPTS "${dir}/${filename}"
 fi

@@ -39,7 +39,7 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 
-ENV SOLVE_OPTS="--guess-scale --no-verify --downsample 4 --temp-axy --no-plots --overwrite"
+ENV SOLVE_OPTS="--guess-scale --no-verify --downsample 4 --temp-axy --no-plots"
 
 USER ${username}
 WORKDIR /app
