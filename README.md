@@ -16,9 +16,12 @@ curl -fsSL https://get.docker.com -o get-docker.sh
 sh get-docker.sh
 ```
 
-> Note: you will probably need to restart or logout of current session before this works properly. The above script will tell you what to do.
+> Note: you will probably need to restart or logout of current session before this works properly. The above script will
+> tell you what to do.
 
-### Get `plate-solver` Image
+### Get `plate-solver`
+
+```bash
 
 Once you have the `docker` command on your system you will need to pull the
 `panoptes-plate-solver` image from the Google Cloud Registry servers:
@@ -27,28 +30,39 @@ Once you have the `docker` command on your system you will need to pull the
 docker pull gcr.io/panoptes-exp/panoptes-plate-solver
 ```
 
-### Use
+### Use `plate-solver`
 
-The default service is running the `watcher.py` script with the current directory and the default handler.
+Running the image will create a container that listens to a directory and attempts
+to plate-solve any images (ending in `.fits`) found there. The directory to watch
+for FITS images can be changed by mapping a volume to `/incoming` in the container.
 
-The entrypoint is the script itself with the default options specified as the current
-`CMD`. These can be changed at the command line with the appropriate options:
+#### Directories
+
+The docker container has an `/incoming` and `/outgoing` directory that should be mapped
+to the host directories you want to watch. These directories should exist before you
+run the container.
+
+> Note: you should not set the incoming directory to be the same as the outgoing directory.
+
+#### Solve options
+
+The default plate-solve options are:
 
 ```bash
-docker run --rm -it gcr.io/panoptes-exp/panoptes-plate-solver --help
+SOLVE_OPTS="--guess-scale --no-verify --downsample 4 --temp-axy --no-plots"
 ```
 
-### Handler
-
-The default handler will listen on a directory and perform the following operations:
-
-* Attempt to extract a thumbnail from any `.cr2` files.
-* Convert any `.cr2` files to `.fits` files.
-* Plate-solve any `.fits` files.
-* Compress (via `fpack`) any `.fits` files.
-
-The `watch.py` takes a `--handler` argument that points to a python file containing a `Handler` class,
-default `--handler handler`, which points to
-`handler.py`. See `handler.py` for an example.
+which can be changed when running the container. See [example](#example) below.
 
 The [`watchdog`](https://pypi.org/project/watchdog/) library provides the underlying event and handler class support.
+
+### Example
+
+```bash
+# Map image directories to /incoming and /outgoing and set custom plate-solve options.
+docker run --rm -it \
+  -v ./images/:/incoming \
+  -v ./solved/:/outgoing \
+  -e SOLVE_OPTS="--guess-scale --no-verify --downsample 2 --no-plots" \
+  gcr.io/panoptes-exp/panoptes-plate-solver
+```
