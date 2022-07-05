@@ -12,8 +12,8 @@ You will need to have [Docker](https://www.docker.com) up and running on your sy
 The [official docs](https://www.docker.com/get-started) provide some ways to do this, but a simple way is:
 
 ```bash
-$ curl -fsSL https://get.docker.com -o get-docker.sh
-$ sh get-docker.sh
+curl -fsSL https://get.docker.com -o get-docker.sh
+sh get-docker.sh
 ```
 
 > Note: you will probably need to restart or logout of current session before this works properly. The above script will tell you what to do.
@@ -24,7 +24,7 @@ Once you have the `docker` command on your system you will need to pull the
 `panoptes-plate-solver` image from the Google Cloud Registry servers:
 
 ```bash
-$ docker pull gcr.io/panoptes-exp/panoptes-plate-solver
+docker pull gcr.io/panoptes-exp/panoptes-plate-solver
 ```
 
 ### Use
