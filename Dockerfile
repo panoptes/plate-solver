@@ -39,6 +39,7 @@ RUN apt-get update && \
     apt-get -y clean && \
     rm -rf /var/lib/apt/lists/* && \
     pip3 install --upgrade pip && \
+    pip3 install "MarkupSafe<2.1.0" && \
     pip3 install "panoptes-utils[images]"
 
 FROM plate-solver-base AS plate-solver
