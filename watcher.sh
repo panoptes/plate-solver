@@ -5,11 +5,14 @@ OUTGOING_DIR="${OUTGOING_DIR:-.}"
 SOLVE_OPTS="${SOLVE_OPTS:-}"
 
 function handle_cr2_file() {
-  echo "Extracting JPEG from CR2"
-  /usr/local/bin/cr2-to-jpg "${dir}${filename}"
-  mv "${dir}${filename%.cr2}.jpg" "${OUTGOING_DIR}"
-  echo "Converting CR2 to FITS for ${dir}${filename}'"
-  panoptes-utils image cr2 convert --fits-fname "${dir}/${filename/cr2/fits}" --overwrite --remove-cr2 "${INCOMING_DIR}/${filename}"
+  echo "Extracting JPEG from CR2."
+  exiftool -b -PreviewImage "${dir}${filename}" > "${OUTGOING_DIR}${filename%.cr2}.jpg"
+  
+  echo "Converting CR2 to FITS."
+  rawtran -c plain -X '-t 0' -C '-D -4' -o "${OUTGOING_DIR}${filename%.cr2}.fits" "${dir}${filename}"
+  
+  echo "Removing CR2 file."
+  rm "${dir}${filename}"
 }
 
 function handle_fits_file() {
