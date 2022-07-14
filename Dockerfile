@@ -37,9 +37,10 @@ RUN apt-get update && \
     # Cleanup
     apt-get autoremove --purge -y && \
     apt-get -y clean && \
-    rm -rf /var/lib/apt/lists/* && \
-    # Python deps via conda.
-    conda install -c conda-forge \
+    rm -rf /var/lib/apt/lists/*
+
+# Python deps via conda.
+RUN conda install -c conda-forge \
       astropy \
       photutils \
       matplotlib \
