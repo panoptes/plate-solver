@@ -1,4 +1,4 @@
-FROM debian:buster-slim AS plate-solver-base
+FROM continuumio/miniconda3 AS plate-solver-base
 ARG username=solve-user
 ARG incoming_dir=/incoming
 ARG outgoing_dir=/outgoing
@@ -38,8 +38,15 @@ RUN apt-get update && \
     apt-get autoremove --purge -y && \
     apt-get -y clean && \
     rm -rf /var/lib/apt/lists/* && \
-    pip3 install --upgrade pip && \
-    pip3 install --no-deps "panoptes-utils"
+    # Python deps via conda.
+    conda install -c conda-forge \
+      astropy \
+      photutils \
+      matplotlib \
+      scipy \
+      numpy \
+      pip && \
+    pip install "panoptes-utils[images]"
 
 FROM plate-solver-base AS plate-solver
 
