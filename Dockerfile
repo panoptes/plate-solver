@@ -1,4 +1,4 @@
-FROM debian:buster-slim
+FROM debian:buster-slim AS plate-solver-base
 ARG username=solve-user
 ARG incoming_dir=/incoming
 ARG outgoing_dir=/outgoing
@@ -6,13 +6,12 @@ ARG outgoing_dir=/outgoing
 ARG DEBIAN_FRONTEND=noninteractive
 
 ENV INCOMING_DIR=$incoming_dir
-ENV OUTGOING_DIR=$ouggoing_dir
+ENV OUTGOING_DIR=$outgoing_dir
 ENV SOLVE_OPTS="--guess-scale --no-verify --downsample 4 --temp-axy --no-plots --dir $outgoing_dir"
 
 ADD http://data.astrometry.net/4100/index-4110.fits /usr/share/astrometry/
 ADD http://data.astrometry.net/4100/index-4111.fits /usr/share/astrometry/
 ADD http://data.astrometry.net/4100/index-4112.fits /usr/share/astrometry/
-ADD http://data.astrometry.net/4100/index-4108.fits /usr/share/astrometry/
 ADD http://data.astrometry.net/4100/index-4113.fits /usr/share/astrometry/
 ADD http://data.astrometry.net/4100/index-4114.fits /usr/share/astrometry/
 ADD http://data.astrometry.net/4100/index-4115.fits /usr/share/astrometry/
@@ -25,7 +24,7 @@ RUN apt-get update && \
     apt-get install --no-install-recommends -y \
       wget ca-certificates bzip2 \
       astrometry.net dcraw exiftool libcfitsio-bin \
-      inotify-tools \
+      inotify-tools python3-pip \
       && \
     # Add user.
     useradd -ms /bin/bash ${username} && \
@@ -38,9 +37,13 @@ RUN apt-get update && \
     # Cleanup
     apt-get autoremove --purge -y && \
     apt-get -y clean && \
-    rm -rf /var/lib/apt/lists/*
+    rm -rf /var/lib/apt/lists/* && \
+    pip3 install --upgrade pip && \
+    pip3 install "panoptes-utils[images]"
+
+FROM plate-solver-base AS plate-solver
 
 USER ${username}
 WORKDIR /app
 COPY watcher.sh .
-CMD [ "/app/watcher.sh" ]
+CMD ["/bin/bash", "watcher.sh"]
