@@ -46,7 +46,7 @@ RUN apt-get update && \
       scipy \
       numpy \
       pip && \
-    pip install "panoptes-utils[images]"
+    pip install --no-deps "panoptes-utils"
 
 FROM plate-solver-base AS plate-solver
 
