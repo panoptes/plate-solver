@@ -6,10 +6,10 @@ SOLVE_OPTS="${SOLVE_OPTS:-}"
 
 function handle_cr2_file() {
   echo "Extracting JPEG from CR2."
-  exiftool -b -PreviewImage "${dir}${filename}" > "${OUTGOING_DIR}${filename%.cr2}.jpg"
+  exiftool -b -PreviewImage "${dir}${filename}" > "${OUTGOING_DIR}/${filename%.cr2}.jpg"
   
   echo "Converting CR2 to FITS."
-  rawtran -c plain -X '-t 0' -C '-D -4' -o "${OUTGOING_DIR}${filename%.cr2}.fits" "${dir}${filename}"
+  rawtran -c plain -o "${OUTGOING_DIR}/${filename%.cr2}.fits" "${dir}${filename}"
   
   echo "Removing CR2 file."
   rm "${dir}${filename}"
@@ -17,7 +17,7 @@ function handle_cr2_file() {
 
 function handle_fits_file() {
   echo "Running 'solve-field $SOLVE_OPTS ${dir}${filename}'"
-  /usr/bin/solve-field $SOLVE_OPTS --dir "${OUTGOING_DIR}" "${dir}/${filename}"
+  /usr/bin/solve-field $SOLVE_OPTS --dir "${OUTGOING_DIR}" "${dir}${filename}"
   rm "${dir}${filename}"
 }
 
@@ -30,6 +30,7 @@ function handle_file() {
     handle_cr2_file "${datetime}" "${dir}" "${filename}" "${event}"
   fi
 }
+
 echo "Watching ${INCOMING_DIR} for file changes..."
 inotifywait \
   "${INCOMING_DIR}" \
