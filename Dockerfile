@@ -1,4 +1,4 @@
-FROM debian:buster-slim AS plate-solver-base
+FROM debian:buster-slim
 ARG username=solve-user
 ARG incoming_dir=/incoming
 ARG outgoing_dir=/outgoing
@@ -24,7 +24,7 @@ RUN apt-get update && \
     apt-get install --no-install-recommends -y \
       wget ca-certificates bzip2 \
       astrometry.net dcraw exiftool libcfitsio-bin \
-      inotify-tools python3-pip \
+      inotify-tools rawtran \
       && \
     # Add user.
     useradd -ms /bin/bash ${username} && \
@@ -37,11 +37,7 @@ RUN apt-get update && \
     # Cleanup
     apt-get autoremove --purge -y && \
     apt-get -y clean && \
-    rm -rf /var/lib/apt/lists/* && \
-    pip3 install --upgrade pip && \
-    pip3 install "panoptes-utils[images]"
-
-FROM plate-solver-base AS plate-solver
+    rm -rf /var/lib/apt/lists/*
 
 USER ${username}
 WORKDIR /app
