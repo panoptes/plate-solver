@@ -1,5 +1,5 @@
 FROM debian:buster-slim
-ARG username=solve-user
+ARG username=panoptes
 ARG incoming_dir=/incoming
 ARG outgoing_dir=/outgoing
 
