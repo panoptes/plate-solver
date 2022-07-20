@@ -1,0 +1,20 @@
+channels:
+  - https://conda.anaconda.org/conda-forge
+dependencies:
+  - astropy
+  - fastapi
+  - h5py
+  - matplotlib-base
+  - numexpr
+  - numpy
+  - pandas
+  - photutils
+  - pip
+  - pyarrow
+  - scikit-learn
+  - scipy
+  - seaborn
+  - uvicorn
+  - pip:
+      - panoptes-utils[config,images,social]
+      - panoptes-data
