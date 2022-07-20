@@ -1,5 +1,5 @@
 FROM debian:buster-slim
-ARG username=panoptes
+ARG username=argus
 ARG incoming_dir=/incoming
 ARG outgoing_dir=/outgoing
 
@@ -38,6 +38,24 @@ RUN apt-get update && \
     apt-get autoremove --purge -y && \
     apt-get -y clean && \
     rm -rf /var/lib/apt/lists/*
+
+USER "${username}"
+RUN echo "Adding miniconda" && \
+    wget "https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-${arch}.sh" -O miniconda.sh && \
+    chmod +x miniconda.sh && \
+    bash miniconda.sh -b && \
+    rm miniconda.sh && \
+    ~/miniconda3/bin/conda init && \
+    ~/miniconda3/bin/conda install -n base -c conda-forge mamba && \
+    # Cleanup
+    ~/miniconda3/bin/pip cache purge && \
+    ~/miniconda3/bin/mamba clean --all
+
+COPY --chown="${username}:${username}" environment.yaml .
+RUN ~/miniconda3/bin/mamba env update -n base -f environment.yaml && \
+    # Cleanup
+    ~/miniconda3/bin/pip cache purge && \
+    ~/miniconda3/bin/mamba clean --all
 
 USER ${username}
 WORKDIR /app
