@@ -1,4 +1,4 @@
-FROM debian:buster-slim
+FROM continuumio/miniconda3
 ARG username=argus
 ARG incoming_dir=/incoming
 ARG outgoing_dir=/outgoing
@@ -9,21 +9,21 @@ ENV INCOMING_DIR=$incoming_dir
 ENV OUTGOING_DIR=$outgoing_dir
 ENV SOLVE_OPTS="--guess-scale --no-verify --downsample 4 --temp-axy --no-plots --dir $outgoing_dir"
 
-ADD http://data.astrometry.net/4100/index-4110.fits /usr/share/astrometry/
-ADD http://data.astrometry.net/4100/index-4111.fits /usr/share/astrometry/
-ADD http://data.astrometry.net/4100/index-4112.fits /usr/share/astrometry/
-ADD http://data.astrometry.net/4100/index-4113.fits /usr/share/astrometry/
-ADD http://data.astrometry.net/4100/index-4114.fits /usr/share/astrometry/
-ADD http://data.astrometry.net/4100/index-4115.fits /usr/share/astrometry/
-ADD http://data.astrometry.net/4100/index-4116.fits /usr/share/astrometry/
-ADD http://data.astrometry.net/4100/index-4117.fits /usr/share/astrometry/
-ADD http://data.astrometry.net/4100/index-4118.fits /usr/share/astrometry/
-ADD http://data.astrometry.net/4100/index-4119.fits /usr/share/astrometry/
+#ADD http://data.astrometry.net/4100/index-4110.fits /usr/share/astrometry/
+#ADD http://data.astrometry.net/4100/index-4111.fits /usr/share/astrometry/
+#ADD http://data.astrometry.net/4100/index-4112.fits /usr/share/astrometry/
+#ADD http://data.astrometry.net/4100/index-4113.fits /usr/share/astrometry/
+#ADD http://data.astrometry.net/4100/index-4114.fits /usr/share/astrometry/
+#ADD http://data.astrometry.net/4100/index-4115.fits /usr/share/astrometry/
+#ADD http://data.astrometry.net/4100/index-4116.fits /usr/share/astrometry/
+#ADD http://data.astrometry.net/4100/index-4117.fits /usr/share/astrometry/
+#ADD http://data.astrometry.net/4100/index-4118.fits /usr/share/astrometry/
+#ADD http://data.astrometry.net/4100/index-4119.fits /usr/share/astrometry/
 
 RUN apt-get update && \
     apt-get install --no-install-recommends -y \
       wget ca-certificates bzip2 \
-      astrometry.net dcraw exiftool libcfitsio-bin \
+      dcraw exiftool libcfitsio-bin \
       inotify-tools rawtran \
       && \
     # Add user.
@@ -34,29 +34,22 @@ RUN apt-get update && \
     chown -R ${username}:${username} "${incoming_dir}" && \
     chown -R ${username}:${username} "${outgoing_dir}" && \
     chown -R ${username}:${username} /usr/share/astrometry && \
+    chown -R ${username}:${username} /opt/conda && \
     # Cleanup
     apt-get autoremove --purge -y && \
     apt-get -y clean && \
     rm -rf /var/lib/apt/lists/*
 
-ARG arch=$(uname -p)
 USER "${username}"
-RUN echo "Adding miniconda with ${arch}" && \
-    wget "https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-${arch}.sh" -O miniconda.sh && \
-    chmod +x miniconda.sh && \
-    bash miniconda.sh -b && \
-    rm miniconda.sh && \
-    ~/miniconda3/bin/conda init && \
-    ~/miniconda3/bin/conda install -n base -c conda-forge mamba && \
-    # Cleanup
-    ~/miniconda3/bin/pip cache purge && \
-    ~/miniconda3/bin/mamba clean --all
+RUN /opt/conda/bin/conda init && \
+    /opt/conda/bin/conda install -c conda-forge mamba && \
+    /opt/conda/bin/mamba update --all
 
 COPY --chown="${username}:${username}" environment.yaml .
-RUN ~/miniconda3/bin/mamba env update -n base -f environment.yaml && \
+RUN /opt/conda/bin/mamba env update -n base -f environment.yaml && \
     # Cleanup
-    ~/miniconda3/bin/pip cache purge && \
-    ~/miniconda3/bin/mamba clean --all
+    /opt/conda/bin/pip cache purge && \
+    /opt/conda/bin/mamba clean --all
 
 USER ${username}
 WORKDIR /app
