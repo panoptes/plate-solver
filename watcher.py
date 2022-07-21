@@ -3,6 +3,7 @@ from pathlib import Path
 
 from watchfiles import watch
 from panoptes.utils.images import fits as fits_utils
+from panoptes.utils.images import cr2 as cr2_utils
 
 incoming_dir = os.getenv('INCOMING_DIR', '/incoming')
 outgoing_dir = os.getenv('OUTGOING_DIR', '/outgoing')
@@ -21,13 +22,17 @@ def main():
         print(changes)
         for change_type, path in changes:
             path = Path(path)
-            print(change_type.name, path)
+            print(f'Received {change_type}, {path}')
             if change_type.name == 'added' and path.exists():
-                print(f'Received {path}')
-
-                # Check for FITS files and plate-solve.p
-                if path.suffix in ['.fits', '.fz']:
+                if path.suffix in ['.cr2']:
+                    fits_path = cr2_utils.cr2_to_fits(path,
+                                                      fits_fname=f'{outgoing_dir}/{path.with_suffix(".fits")}',
+                                                      remove_cr2=True)
+                    print(f'Converted {path} to {fits_path}')
+                # Check for FITS files and plate-solve.
+                elif path.suffix in ['.fits', '.fz']:
                     try:
+
                         solve_info = fits_utils.solve_field(str(path),
                                                             solve_opts=solve_opts.split(' '))
                         print(f'Solved {path}: {solve_info!r}')
