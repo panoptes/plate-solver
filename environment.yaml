@@ -2,7 +2,7 @@ channels:
   - https://conda.anaconda.org/conda-forge
 dependencies:
   - astropy
-  - astrometry.net
+  - astrometry
   - fastapi
   - h5py
   - matplotlib-base
@@ -16,6 +16,7 @@ dependencies:
   - scipy
   - seaborn
   - uvicorn
+  - watchfiles
   - pip:
       - panoptes-utils[config,images,social]
       - panoptes-data
