@@ -39,8 +39,9 @@ RUN apt-get update && \
     apt-get -y clean && \
     rm -rf /var/lib/apt/lists/*
 
+ARG arch=$(uname -p)
 USER "${username}"
-RUN echo "Adding miniconda" && \
+RUN echo "Adding miniconda with ${arch}" && \
     wget "https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-${arch}.sh" -O miniconda.sh && \
     chmod +x miniconda.sh && \
     bash miniconda.sh -b && \
