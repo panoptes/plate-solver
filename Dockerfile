@@ -51,4 +51,4 @@ USER ${username}
 RUN conda init
 WORKDIR /app
 COPY watcher.py .
-CMD ["watchfiles", "watcher.main"]
+CMD ["python", "watcher.py"]
