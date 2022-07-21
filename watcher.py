@@ -28,7 +28,8 @@ def main():
                 # Check for FITS files and plate-solve.p
                 if path.suffix in ['.fits', '.fz']:
                     try:
-                        solve_info = fits_utils.solve_field(str(path), solve_opts=solve_opts)
+                        solve_info = fits_utils.solve_field(str(path),
+                                                            solve_opts=solve_opts.split(' '))
                         print(f'Solved {path}: {solve_info!r}')
                     except Exception as e:
                         print(f'Error processing {path}: {e}')
