@@ -9,10 +9,10 @@ incoming_dir = os.getenv('INCOMING_DIR', '/incoming')
 outgoing_dir = os.getenv('OUTGOING_DIR', '/outgoing')
 solve_opts = os.getenv('SOLVE_OPTS',
                        '--guess-scale --cpulimit 90 --no-verify'
-                       '--crpix-center --temp-axy --index-xyls none'
-                       '--solved none --match none --rdls none'
-                       '--corr none --downsample 4 --no-plots'
-                       f'--dir {outgoing_dir}'
+                       ' --crpix-center --temp-axy --index-xyls none'
+                       ' --solved none --match none --rdls none'
+                       ' --corr none --downsample 4 --no-plots'
+                       f' --dir {outgoing_dir}'
                        )
 
 
