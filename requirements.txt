@@ -1,2 +1,0 @@
-panoptes-utils[images]
-watchfiles
