@@ -22,7 +22,7 @@ ADD http://data.astrometry.net/4100/index-4119.fits /usr/share/astrometry/
 
 RUN apt-get update && \
     apt-get install --no-install-recommends -y \
-      wget ca-certificates bzip2 \
+      wget ca-certificates bzip2 vim-tiny \
       dcraw exiftool libcfitsio-bin \
       astrometry.net inotify-tools rawtran \
       && \
