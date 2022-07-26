@@ -42,5 +42,5 @@ RUN apt-get update && \
 USER ${username}
 WORKDIR /app
 COPY watcher.sh .
-RUN pip install -U pip && pip install "panoptes-utils[images]"
+RUN pip3 install -U pip && pip3 install "panoptes-utils[images]"
 CMD ["/bin/bash", "watcher.sh"]
