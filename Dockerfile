@@ -34,7 +34,6 @@ RUN apt-get update && \
     chown -R ${username}:${username} "${incoming_dir}" && \
     chown -R ${username}:${username} "${outgoing_dir}" && \
     chown -R ${username}:${username} /usr/share/astrometry && \
-    chown -R ${username}:${username} /opt/conda && \
     # Cleanup
     apt-get autoremove --purge -y && \
     apt-get -y clean && \
