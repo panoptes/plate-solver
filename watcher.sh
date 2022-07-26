@@ -9,7 +9,7 @@ function handle_cr2_file() {
   exiftool -b -PreviewImage "${dir}${filename}" > "${OUTGOING_DIR}/${filename%.cr2}.jpg"
 
   echo "Converting CR2 to FITS."
-  rawtran -c plain -X '-t 0' -C '-D -4' -o "${OUTGOING_DIR}/${filename%.cr2}.fits" "${dir}${filename}"
+  panoptes-utils image cr2 convert --fits-fname "${OUTGOING_DIR}/${filename%.cr2}.fits" "${dir}${filename}"
 
   echo "Removing CR2 file."
   rm "${dir}${filename}"

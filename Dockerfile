@@ -24,7 +24,7 @@ RUN apt-get update && \
     apt-get install --no-install-recommends -y \
       wget ca-certificates bzip2 vim-tiny \
       dcraw exiftool libcfitsio-bin \
-      astrometry.net inotify-tools rawtran \
+      astrometry.net inotify-tools python3-pip \
       && \
     # Add user.
     useradd -ms /bin/bash ${username} && \
@@ -42,4 +42,5 @@ RUN apt-get update && \
 USER ${username}
 WORKDIR /app
 COPY watcher.sh .
+RUN pip install -U pip && pip install "panoptes-utils[images]"
 CMD ["/bin/bash", "watcher.sh"]
